@@ -1,35 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import ProductCard from "./ProductCard";
+import ProductForm from "./ProductForm";
 
-function App() {
-  const [count, setCount] = useState(0)
+export type Product ={
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+  stock: number;
+};
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+function App(){
+  const [products, setProducts] = useState<Product[]>([
+    { id: 1, name: "Laptop", price: 800, category: "A" ,stock:10},
+    { id: 2, name: "Charger", price: 120, category: "B",stock:2},
+    { id: 3, name: "Table", price: 300, category: "C",stock:0 }]);
+
+  const [search, setSearch] = useState<string>("");
+
+
+  const addProduct = (product:Product)=>{
+    setProducts([...products, product]);
+  };
+
+  const deleteProduct = (id:number)=>{
+    setProducts(products.filter((p)=>p.id!=id));
+  };
+
+  const filteredProducts = products.filter((p)=>p.name.toLowerCase().includes(search.toLowerCase()));
+  return(
+    <div className="p-4">
+      <h1 className="text-xl font-bold mb-4">Swift Shop Dashboard</h1>
+
+      <input
+        type="text"
+        placeholder="Search product..."
+        className="border p-2 mb-4 w-full"
+        value={search}
+        onChange={(e)=>setSearch(e.target.value)}/>
+
+      <ProductForm addProduct={addProduct}/>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
+        {filteredProducts.map((product)=>(
+          <ProductCard key={product.id} {...product} deleteProduct={deleteProduct}/> ))}
+
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+
+export default App;
