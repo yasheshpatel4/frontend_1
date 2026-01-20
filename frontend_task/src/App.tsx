@@ -1,6 +1,8 @@
 import { useState } from "react";
 import ProductCard from "./ProductCard";
 import ProductForm from "./ProductForm";
+import Navbar from "./Navbar";
+import StatTiles from "./StatTiles";
 
 export type Product ={
   id: number;
@@ -30,12 +32,12 @@ function App(){
   const filteredProducts = products.filter((p)=>p.name.toLowerCase().includes(search.toLowerCase()));
   return(
     <div className="p-4">
-      <h1 className="text-xl font-bold mb-4">Swift Shop Dashboard</h1>
-
+      <Navbar/>
+      
       <input
         type="text"
         placeholder="Search product..."
-        className="border p-2 mb-4 w-full"
+        className="border p-2 mt-4 mb-4 w-full"
         value={search}
         onChange={(e)=>setSearch(e.target.value)}/>
 
@@ -46,6 +48,7 @@ function App(){
           <ProductCard key={product.id} {...product} deleteProduct={deleteProduct}/> ))}
 
       </div>
+      <StatTiles products={products}/>
     </div>
   );
 }
