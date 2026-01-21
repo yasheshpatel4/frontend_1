@@ -18,7 +18,9 @@ function App(){
   //   { id: 2, name: "Charger", price: 120, category: "B",stock:2},
   //   { id: 3, name: "Table", price: 300, category: "C",stock:0 }]);
     
-    const defaultProduct: Product[] = [{ id: 1, name: "Laptop", price: 800, category: "A", stock: 10 } ];
+    const defaultProduct: Product[] = [{ id: 1, name: "Laptop", price: 800, category: "A", stock: 10 },
+                                       { id: 2, name: "Charger", price: 120, category: "B",stock:2},
+                                       { id: 3, name: "Table", price: 300, category: "C",stock:0 }];
     const [products, setProducts] = useState<Product[]>(()=>{
       const saved = localStorage.getItem("myData");
       if(saved){

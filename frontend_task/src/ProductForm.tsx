@@ -18,7 +18,14 @@ const ProductForm =({ addProduct }: ProductFormProps)=>{
     handleSubmit,
     reset,
     formState: { errors }
-  }=useForm<FormValues>();
+  }=useForm<FormValues>(
+    {defaultValues:{
+      name: "",
+      price: 0,
+      category: "",
+      stock: 0
+    }}
+  );
 
   const onSubmit =(data: FormValues)=>{
     addProduct({
@@ -34,6 +41,7 @@ const ProductForm =({ addProduct }: ProductFormProps)=>{
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="border p-4">
+      Product Name:
       <Controller
         name="name"
         control={control}
@@ -51,7 +59,7 @@ const ProductForm =({ addProduct }: ProductFormProps)=>{
           {errors.name.message}
         </p>
       )}
-
+      Price:
       <Controller
         name="price"
         control={control}
@@ -73,7 +81,7 @@ const ProductForm =({ addProduct }: ProductFormProps)=>{
           {errors.price.message}
         </p>
       )}
-
+      Category:
       <Controller
         name="category"
         control={control}
@@ -85,7 +93,7 @@ const ProductForm =({ addProduct }: ProductFormProps)=>{
           />
         )}
       />
-
+      stocks:
       <Controller
         name="stock"
         control={control}
