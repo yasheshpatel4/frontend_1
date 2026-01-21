@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import ProductCard from "./ProductCard";
 import ProductForm from "./ProductForm";
 import Navbar from "./Navbar";
 import StatTiles from "./StatTiles";
 
-export type Product ={
+export interface Product {
   id: number;
   name: string;
   price: number;
@@ -13,12 +13,29 @@ export type Product ={
 };
 
 function App(){
-  const [products, setProducts] = useState<Product[]>([
-    { id: 1, name: "Laptop", price: 800, category: "A" ,stock:10},
-    { id: 2, name: "Charger", price: 120, category: "B",stock:2},
-    { id: 3, name: "Table", price: 300, category: "C",stock:0 }]);
+  // const [products, setProducts] = useState<Product[]>([
+  //   { id: 1, name: "Laptop", price: 800, category: "A" ,stock:10},
+  //   { id: 2, name: "Charger", price: 120, category: "B",stock:2},
+  //   { id: 3, name: "Table", price: 300, category: "C",stock:0 }]);
+    
+    const defaultProduct: Product[] = [{ id: 1, name: "Laptop", price: 800, category: "A", stock: 10 } ];
+    const [products, setProducts] = useState<Product[]>(()=>{
+      const saved = localStorage.getItem("myData");
+      if(saved){
+        return JSON.parse(saved);
+      }
+      else{
+        localStorage.setItem("myData",JSON.stringify(defaultProduct));
+        return defaultProduct;
+      }
+    });
+
 
   const [search, setSearch] = useState<string>("");
+
+  useEffect(() => {
+    localStorage.setItem("myData", JSON.stringify(products));
+}, [products]);
 
 
   const addProduct = (product:Product)=>{
